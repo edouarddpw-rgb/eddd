@@ -1,0 +1,68 @@
+FOLLOW — page à faire tourner en local
+======================================
+
+Contenu du dossier
+------------------
+index.html            La page complète : splash, vidéo d'intro, globe, grille, lightbox, menu.
+lancer-mac.command    Lanceur Mac (double-clic).
+lancer-windows.bat    Lanceur Windows (double-clic).
+lancer-linux.sh       Lanceur Linux (./lancer-linux.sh).
+README.md             Notes techniques (en anglais).
+
+Une connexion internet est nécessaire : la vidéo d'intro (CloudFront) et les polices
+(Google Fonts) sont chargées en ligne. Sans connexion, la page s'affiche quand même,
+avec un fond à la place de la vidéo et des polices système.
+
+
+Méthode 1 — la plus simple
+--------------------------
+Double-clique sur index.html. La page s'ouvre dans ton navigateur.
+Utilise Chrome, Safari, Edge ou Firefox, dans une version récente.
+
+
+Méthode 2 — avec un petit serveur local (recommandé)
+----------------------------------------------------
+Mac
+  Double-clique sur lancer-mac.command.
+  La première fois, macOS peut le bloquer : clic droit > Ouvrir > Ouvrir.
+  Une fenêtre Terminal s'ouvre et le navigateur affiche http://localhost:8765
+  (ou 8766, 8767… si ce port est déjà occupé).
+  Pour arrêter : ferme la fenêtre Terminal.
+
+Windows
+  Double-clique sur lancer-windows.bat.
+  Une fenêtre « FOLLOW - serveur local » s'ouvre et le navigateur affiche la page.
+  Pour arrêter : ferme cette fenêtre.
+  Il faut Python (python.org) ou Node.js (nodejs.org). Si aucun n'est installé,
+  le lanceur ouvre simplement index.html.
+
+À la main, depuis un terminal ouvert dans ce dossier
+  python3 -m http.server 8765
+  puis ouvre http://localhost:8765 dans ton navigateur.
+
+
+Utilisation
+-----------
+- La vidéo d'intro démarre après le chargement. « Skip » permet de la passer.
+- Fais glisser la souris (ou le doigt) pour faire tourner le globe.
+- Fais défiler la page pour zoomer, puis clique sur le bouton grille (en bas à gauche)
+  pour voir toutes les cartes à plat.
+- Clique sur une carte pour l'ouvrir. Échap ferme la carte, puis le menu, puis la grille.
+- Le menu se trouve en haut à droite.
+
+
+Remplacer les visuels provisoires
+---------------------------------
+Les 21 cartes affichent des visuels FOLLOW provisoires, dessinés directement par la page.
+Pour mettre tes images, ouvre index.html dans un éditeur de texte et cherche « const SHOTS ».
+Sur chaque ligne, ajoute l'adresse de l'image, par exemple :
+
+  { title: 'Branded Scooter', place: '...', note: '...', art: 0,
+    thumb: 'https://…/image.webp', full: 'https://…/image.png' },
+
+  thumb = image de la carte (environ 2500 px de large)
+  full  = image en grand dans la lightbox
+
+Tu peux aussi utiliser des fichiers locaux, par exemple thumb: 'images/01.webp'.
+Dans ce cas, place un dossier « images » à côté de index.html et lance la page
+avec la méthode 2 (serveur local).
