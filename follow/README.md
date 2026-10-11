@@ -1,123 +1,39 @@
-# FOLLOW — interactive prototype
+# FOLLOW — archive page
 
-Immersive website prototype for **FOLLOW**, a mobile advertising agency in Da Nang, Vietnam
-(custom-branded scooters, hyperlocal visibility, QR tracking, weekly reporting).
+Single self-contained `index.html` (one `<style>`, one `<script>` at the end of `<body>`,
+no framework, no bundler). It follows the reference archive page exactly — splash,
+2× intro film with Skip, Fibonacci photo sphere with the headline on the sphere origin,
+drag to rotate, 16vh scroll dolly, flat grid, FLIP lightbox, full-screen menu, custom
+cursor, all breakpoints — adapted to the FOLLOW brand (black + electric blue,
+Space Grotesk + Inter, FOLLOW copy).
 
-Everything is in **one file**: `index.html` (HTML + one `<style>` + one `<script>`, vanilla JS,
-no framework, no build step). The only external resource is Google Fonts (Space Grotesk + Inter);
-if fonts cannot load, system fonts are used.
-
----
-
-## 1. Run it locally
-
-Any static server works. From this folder:
+## Run locally
 
 ```bash
-# Node
-npx http-server -p 8080 .        # or: npx serve .
-# Python
-python3 -m http.server 8080
+npx http-server -p 8080 .    # or: python3 -m http.server 8080
 ```
 
-Then open <http://localhost:8080>.
+Open <http://localhost:8080>. Opening the file directly also works.
 
-Opening `index.html` directly (`file://`) also works in Chrome/Edge/Firefox.
-A local server is still recommended once you add real assets (video, images).
-
----
-
-## 2. What the page does
-
-| # | Experience | Notes |
-|---|---|---|
-| 0 | **Splash** | `FOLLOW.` + tagline, blue progress bar driven by **real** work items (fonts, film probe, 21 card visuals, city geometry, 6 concept visuals). Min 1.2 s, backstop 8 s. Subtle particles. |
-| 0 | **Intro film** | Plays `assets/follow-intro.mp4` (muted, inline, cover). If missing/blocked → a **real-time WebGL sequence of the same stylized Da Nang** (aerial → descent → scooter on Dragon Bridge → `FOLLOW.` title). If WebGL is also missing → 2D animated map. Skip button, Escape, or click to skip. Never a black screen. |
-| 1 | **Hero — 3D sphere** | 21 cards on a Fibonacci sphere (CSS 3D). `#stage > #world > #orb + #headline` share one 0×0 centre; the headline is counter-rotated every frame. Drag with inertia (pitch clamped ±32°), touch vs. scroll disambiguation, depth wash, 16 vh dolly, then a **portal** transition toward the city. Every card opens a FLIP lightbox. |
-| 2 | **Da Nang journey** | WebGL city: Han River, Dragon Bridge (glowing dragon), Thuan Phuoc / Song Han / Tran Thi Ly bridges, My Khe Beach, Son Tra peninsula (contour terrain), coastal road, bay, East Sea. 3D scooter with FOLLOW wrap + QR panel, turning wheels, lean, contact shadow, light trail. Camera shots **A Aerial → B Route → C Chase → D Side → E Close-up → F Overview**, blended (no hard cuts), clickable. Simulated QR scan notifications + simulated fleet. |
-| 2 | **Dashboard** | Overview (KPIs + evolution), Activity timeline, Locations (mini map + zones), Weekly report preview. Labelled **SIMULATED DEMO DATA** everywhere. |
-| 3 | **Our solutions** | 6 real services + sectors + **CUSTOM QUOTE** (no invented pricing). Consent note on lead generation. |
-| 4 | **Customizer** | Same procedural 3D scooter; wrap design, layout, primary/secondary colours, brand line, message, QR toggle, optional logo upload (stays in the browser), 5 camera angles, drag to rotate. **BUILD YOUR CAMPAIGN** pre-fills the contact form. |
-| 5 | **Insights — concepts** | 6 **CONCEPT CAMPAIGN** cards (hospitality, beach clubs, restaurants, tourism, events, lifestyle). Immersive 3D track ⇄ flat grid toggle, FLIP lightbox. No clients, no results. |
-| 6 | **Contact** | "READY TO BE EVERYWHERE?" — START A CAMPAIGN / LET'S TALK. Front-end form with validation and consent. **Demo mode** by default (nothing is sent, a summary is shown). |
-
-Also: fixed header + full-screen clip-path menu (focus trap, Escape, active section),
-custom blue cursor with context labels (DRAG / VIEW / EXPLORE / OPEN) on fine pointers only,
-subtle magnetic buttons, scroll reveals, safe-area insets, `prefers-reduced-motion` support.
-
----
-
-## 3. Placeholders and simulated content (clearly identified)
+## What is provisional
 
 | Item | Status |
 |---|---|
-| Intro film | **Placeholder path** `assets/follow-intro.mp4` (not supplied). Real-time WebGL fallback plays instead. |
-| 21 sphere visuals, 6 concept visuals | **Procedural placeholders** drawn on `<canvas>` (section 4 of the script). Re-rendered at high resolution for the lightbox. |
-| QR codes | **Decorative pattern**, not scannable. Replace with real campaign QR codes in production artwork. |
-| Da Nang map | **Stylized** geography (river, bridges, coast, peninsula). Not real road geometry, not GPS data. Stated on the page. |
-| Scooter | Procedural low-poly model + live canvas wrap texture. Replace with a real model later (see §5). |
-| Dashboard, notifications, fleet | **Simulated demo data** generated by the simulation. Labelled on screen. |
-| Concept campaigns | **Concepts**, labelled "Concept campaign", no clients, no results. |
-| Contact form | **Demo mode** until `CONFIG.contact.endpoint` is set. |
-| Email / phone | **Not shown** — `null` in `CONFIG.contact` until verified. |
-| Other cities | Only Da Nang is active. Add markets in `CONFIG.cities`. |
+| Intro film | The reference CloudFront film (the eye transition), played at 2×. |
+| 21 sphere / grid visuals | **Provisional FOLLOW visuals**, drawn in the browser. Replace them by filling `thumb` (≈2500 px webp) and `full` (full-size still) on each entry of the `SHOTS` array at the top of the main script. Once a URL is set, it is decoded and downscaled per breakpoint exactly like the reference. |
+| QR codes in the visuals | Decorative, not scannable. |
+| Dashboard / map / concept visuals | Illustrations only, no real data. |
+| Menu links | Same behaviour as the reference: "The Campaigns" opens the grid, the others close the menu. |
+| Contact details | None shown (no verified email or phone yet). |
 
----
+## Brand changes vs. the reference
 
-## 4. Missing optional assets
+- Wordmark and splash mark: `FOLLOW.` (blue full stop) instead of `Ethan Vale`.
+- Headline: "Your Brand. Everywhere." (3 words, staggered reveal).
+- Bio card → FOLLOW card (logo mark + short description), colophon → "Mobile advertising · Da Nang", splash tag → "Move. Be seen. Be remembered."
+- Colours: `#05080F` background, `#F5FAFF` text, `#00BFFF` accents; fonts: Space Grotesk (in place of Playfair Display) + Inter.
 
-Create these files to replace the placeholders, then set
-`CONFIG.media.probeLocalAssets = true` (the intro video is always tried).
-
-```
-assets/
-├── follow-intro.mp4                     cinematic intro (H.264 MP4, muted, ~10–20 s, 1080p, < 15 MB)
-├── brand/follow-logo.svg                header wordmark (replaces the text wordmark)
-├── media/hero-backdrop.webp             faint background behind the sphere
-├── map/danang-ground-2048.png           2048×2048 ground texture, world x/z −90…+90 (north up), transparent water
-├── scooter/follow-scooter-side.webp     reserved for photo renders (not used yet)
-├── scooter/follow-scooter-three-quarter.webp
-├── scooter/follow-scooter-rear.webp
-├── sphere/01-branded-scooter.webp … 21-real-to-digital.webp   (21 files, 3:2, #17 "17-ugc" is 4:5)
-└── campaigns/hospitality.webp, beach-club.webp, restaurant.webp, tourism.webp, events.webp, lifestyle.webp  (3:2)
-```
-
-Exact sphere keys are in the `SPHERE` array (`key` field). Recommended sizes: ~1200×800 webp.
-
----
-
-## 5. Architecture (short)
-
-The script is organised in numbered sections:
-
-1. **CONFIG** — brand, media paths, contact endpoint, analytics source, cities. `ASSETS` lists file paths.
-2. **CONTENT** — sphere cards, concept campaigns, form options.
-3. **Utilities** + a single shared `requestAnimationFrame` loop (`Loop`).
-4. **Procedural art** — canvas placeholders + shared stylized geography (`GEO`).
-5. **Splash** — real progress counter, min/max timing.
-6. **Intro** — video logic (muted/inline before `play()`, autoplay-block handling, backstop) and the real-time fallback.
-7. **Shell** — header, menu (focus trap), Escape priority, cursor, magnetic buttons, scroll reveal.
-8. **Sphere + Lightbox** — Fibonacci layout, responsive radius/card size/perspective, drag/inertia, depth, portal; FLIP lightbox shared by the whole site.
-9. **WebGL engine** — tiny WebGL 1 renderer (`GLR`), geometry builder (`Geo`), one shader with modes (lit, buildings with edge light, ground texture, animated ocean, additive routes/beams/rings, terrain contours, shadows). Procedural scooter + `drawWrap()` texture.
-10. **City** — route (Catmull-Rom), buildings, bridges, terrain, director (shots + blending), scooter physics (speed, turning, lean, wheels), scan events, fleet, projected HTML labels/notifications, adaptive resolution, pause when off-screen, 2D fallback.
-11. **Dashboard** — subscribes to `Data` (see below).
-12. **Customizer** — second WebGL context, lazy-initialised when near the viewport.
-13. **Gallery** — immersive track / grid + lightbox.
-14. **Contact** — validation, demo mode or `fetch` POST to `CONFIG.contact.endpoint`.
-15. **Boot** — loading orchestration.
-
-**Connecting real analytics.** The dashboard only listens to `Data`. Events have the shape
-`{ id, type: 'qr_scan'|'engagement'|'location'|'reach', t, x, z, zone, place, value? }`.
-Set `CONFIG.analytics = { source: 'remote', endpoint: '/your-sse-feed' }` and `RemoteSource`
-(Server-Sent Events) feeds the same dashboard. Real positions need a projection from lat/lng to
-the world x/z used by the map (or real map data — see below).
-
-**Performance.** DPR capped (1.25 mobile / 1.6 desktop) and lowered automatically when frames are
-slow; city and customizer render only when visible and the tab is active; geometry is built once;
-dynamic buffers are tiny; card visuals are generated once and reused (blob URLs); high-res
-visuals only for the lightbox.
-
-**Possible next steps (not required for this prototype).**
-Real map data (OpenStreetMap extract → road/building meshes), a real scooter GLB model with UV-mapped
-wrap, a real intro film, a backend for the form and analytics, and splitting the file into modules
-once the project grows.
+Two technical adjustments, with no visual change to the layout:
+`#headline` has `transform-style: preserve-3d`, and the zoom fades `.inner` rather than
+`#headline`. Without them, Chromium cuts the title in half when a card crosses its plane.
+The centering method is unchanged (negative half-width margin + `translateY(-50%)` on `.inner`).
